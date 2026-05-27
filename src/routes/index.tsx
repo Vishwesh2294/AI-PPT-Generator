@@ -2,6 +2,30 @@ import { getSession } from '#/lib/auth.functions'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Textarea } from '#/components/ui/textarea'
 import { useState } from 'react'
+import { Label } from '#/components/ui/label'
+import { Slider } from '#/components/ui/slider'
+import {
+  LAYOUT_OPTIONS,
+  SLIDE_STYLES,
+  TONE_OPTIONS,
+} from '#/features/presentation/constant/presentation-option'
+
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
+
+type HomeFormState = {
+  content: string
+  slideCount: number
+  style: (typeof SLIDE_STYLES)[number]['value']
+  tone: (typeof TONE_OPTIONS)[number]['value']
+  layout: (typeof LAYOUT_OPTIONS)[number]['value']
+}
 
 export const Route = createFileRoute('/')({
   beforeLoad:async({location})=>{
@@ -19,7 +43,7 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<HomeFormState>({
     content: '',
     slideCount: 8,
     style: 'minimal',
@@ -28,7 +52,7 @@ function Home() {
   })
 
   return (
-    <div className="min-h-screen pt-24 pb-24 px-4">
+    <main className="min-h-screen pt-24 pb-24 px-4">
       <div className='max-w-4xl mx-auto'>
           {/* Header */}
         <div className="text-center mb-10">
@@ -61,8 +85,107 @@ function Home() {
               <span>Markdown supported</span>
             </div>
           </div>
+          
+          {/* Options grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Slide count */}
+            <div className="space-y-2.5">
+              <Label className="text-sm font-medium">
+                Slides: {form.slideCount}
+              </Label>
+              <Slider
+                value={[form.slideCount]}
+                onValueChange={([v]) =>
+                  setForm((s) => ({
+                    ...s,
+                    slideCount: v,
+                  }))
+                }
+                min={3}
+                max={20}
+                step={1}
+                className="py-2"
+              />
+            </div>
+
+            {/* Style */}
+            <div className="space-y-2.5">
+              <Label className="text-sm font-medium">Style</Label>
+              <Select
+                value={form.style}
+                onValueChange={(value) =>
+                  setForm((s) => ({
+                    ...s,
+                    style: value as HomeFormState['style'],
+                  }))
+                }
+              >
+                <SelectTrigger className="bg-background/50 border-border/50 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="glass">
+                  {SLIDE_STYLES.map((s) => (
+                    <SelectItem key={s.value} value={s.value}>
+                      {s.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Tone */}
+            <div className="space-y-2.5">
+              <Label className="text-sm font-medium">Tone</Label>
+              <Select
+                value={form.tone}
+                onValueChange={(value) =>
+                  setForm((s) => ({
+                    ...s,
+                    tone: value as HomeFormState['tone'],
+                  }))
+                }
+              >
+                <SelectTrigger className="bg-background/50 border-border/50 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="glass">
+                  {TONE_OPTIONS.map((t) => (
+                    <SelectItem key={t.value} value={t.value}>
+                      {t.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Layout */}
+            <div className="space-y-2.5">
+              <Label className="text-sm font-medium">Layout</Label>
+              <Select
+                value={form.layout}
+                onValueChange={(value) =>
+                  setForm((s) => ({
+                    ...s,
+                    layout: value as HomeFormState['layout'],
+                  }))
+                }
+              >
+                <SelectTrigger className="bg-background/50 border-border/50 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="glass">
+                  {LAYOUT_OPTIONS.map((l) => (
+                    <SelectItem key={l.value} value={l.value}>
+                      {l.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
         </div>  
       </div>
-    </div>
+    </main>
   )
 }
