@@ -1,5 +1,5 @@
 import { getSession } from '#/lib/auth.functions'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { Textarea } from '#/components/ui/textarea'
 import { useState } from 'react'
 import { Label } from '#/components/ui/label'
@@ -20,6 +20,11 @@ import {
 import { Button } from '#/components/ui/button'
 import {Wand2 } from 'lucide-react'
 import { PRESENTATION_TEMPLATES } from '#/features/presentation/constant/presentation-template'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createPresentation } from '#/features/presentation/actions/presentation-mutation'
+import { toast } from 'sonner'
+import { presentationQueryKeys } from '#/features/presentation/hooks/query-keys'
+
 
 type HomeFormState = {
   content: string
@@ -45,6 +50,8 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [form, setForm] = useState<HomeFormState>({
     content: '',
     slideCount: 8,
@@ -52,6 +59,38 @@ function Home() {
     tone: 'formal',
     layout: 'balanced',
   })
+
+   const createMut = useMutation({
+    mutationFn: () =>
+      createPresentation({
+        data: {
+          prompt: form.content.trim(),
+          slideCount: form.slideCount,
+          style: form.style,
+          tone: form.tone,
+          layout: form.layout,
+        },
+      }),
+    onSuccess: (presentation) => {
+      toast.success('Presentation created')
+      queryClient.invalidateQueries({ queryKey: presentationQueryKeys.list() })
+      navigate({
+        to: "/presentations/$presentationId",
+        params: { presentationId: presentation.id },
+      })
+    },
+    onError: (e) => {
+      toast.error(e instanceof Error ? e.message : 'Could not create presentation')
+    },
+  })
+
+  const handleCreate = () => {
+    if (!form.content.trim()) {
+      toast.error('Please enter your content first')
+      return
+    }
+    createMut.mutate()
+  }
 
   return (
     <main className="min-h-screen pt-24 pb-24 px-4">
@@ -190,7 +229,8 @@ function Home() {
           <div className="flex justify-end pt-2">
             <Button
               size="lg"
-              onClick={()=>{}}
+              onClick={handleCreate}
+              disabled={createMut.isPending || !form.content.trim()}
               className="rounded-xl px-8 gap-2 font-semibold"
             >
                 <Wand2 className="size-5" />
