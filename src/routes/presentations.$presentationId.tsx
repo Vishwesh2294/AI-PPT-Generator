@@ -1,7 +1,17 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { usePresentationDetail } from '#/features/presentation/hooks/usePresentation-detail'
 import { Button } from '#/components/ui/button'
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, Maximize, Play, RefreshCw, Save, Trash2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Maximize,
+  Play,
+  RefreshCw,
+  Save,
+  Trash2,
+} from 'lucide-react'
 import { GenerationStatus } from '#/features/presentation/components/generation-status'
 import { SlidePreview } from '#/features/presentation/components/slide-preview'
 import { useState } from 'react'
@@ -9,10 +19,32 @@ import { presentationThumbnailUrl } from '#/features/presentation/utils'
 import { Label } from '#/components/ui/label'
 import { Textarea } from '#/components/ui/textarea'
 import { Slider } from '#/components/ui/slider'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
-import { LAYOUT_OPTIONS, SLIDE_STYLES, TONE_OPTIONS} from '#/features/presentation/constant/presentation-option'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
+import {
+  LAYOUT_OPTIONS,
+  SLIDE_STYLES,
+  TONE_OPTIONS,
+} from '#/features/presentation/constant/presentation-option'
 import { useFullscreen } from '#/features/presentation/hooks/use-fullscreen'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '#/components/ui/alert-dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '#/components/ui/alert-dialog'
+import { SlideCard } from '#/features/presentation/components/slide-card'
+import { SlideshowModal } from '#/features/presentation/components/slideshow-modal'
 
 export const Route = createFileRoute('/presentations/$presentationId')({
   component: RouteComponent,
@@ -53,7 +85,7 @@ function RouteComponent() {
     )
   }
 
-   if (query.isError) {
+  if (query.isError) {
     const error = query.error
     return (
       <main className="min-h-screen pt-24 pb-12 px-4">
@@ -69,13 +101,13 @@ function RouteComponent() {
     )
   }
 
-  const data = query.data;
-  if(!data){
-    console.log("Data is missing or NULL")
-    return null;
-  } 
+  const data = query.data
+  if (!data) {
+    console.log('Data is missing or NULL')
+    return null
+  }
 
-  const thumb = presentationThumbnailUrl(data.id);  
+  const thumb = presentationThumbnailUrl(data.id)
   const activeSlide = slides.at(activeSlideIndex)
 
   return (
@@ -130,7 +162,7 @@ function RouteComponent() {
                       variant="outline"
                       size="sm"
                       className="rounded-xl gap-1"
-                      onClick={()=>{}}
+                      onClick={() => {}}
                       disabled={isExporting}
                     >
                       <Download className="size-4" />
@@ -224,7 +256,8 @@ function RouteComponent() {
                       onValueChange={(value) =>
                         setForm((s) => ({
                           ...s,
-                          style: value as (typeof SLIDE_STYLES)[number]['value'],
+                          style:
+                            value as (typeof SLIDE_STYLES)[number]['value'],
                         }))
                       }
                     >
@@ -270,7 +303,8 @@ function RouteComponent() {
                       onValueChange={(value) =>
                         setForm((s) => ({
                           ...s,
-                          layout: value as (typeof LAYOUT_OPTIONS)[number]['value'],
+                          layout:
+                            value as (typeof LAYOUT_OPTIONS)[number]['value'],
                         }))
                       }
                     >
@@ -304,7 +338,9 @@ function RouteComponent() {
                     </AlertDialogTrigger>
                     <AlertDialogContent className="glass">
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete presentation?</AlertDialogTitle>
+                        <AlertDialogTitle>
+                          Delete presentation?
+                        </AlertDialogTitle>
                         <AlertDialogDescription>
                           This action cannot be undone. This will permanently
                           delete your presentation and all its slides.
@@ -344,7 +380,10 @@ function RouteComponent() {
             {activeSlide && (
               <div className="space-y-3">
                 <div id="slide-preview-container" className="relative group">
-                  <SlidePreview slide={activeSlide} isFullscreen={isFullscreen} />
+                  <SlidePreview
+                    slide={activeSlide}
+                    isFullscreen={isFullscreen}
+                  />
                   <Button
                     variant="secondary"
                     size="icon"
@@ -419,8 +458,34 @@ function RouteComponent() {
               </div>
             )}
           </div>
-          </div>
+
+          {slides.length > 0 && (
+            <aside className="lg:w-80 xl:w-96 flex flex-col">
+              <h2 className="font-medium text-sm px-2 pb-3 text-muted-foreground">
+                Slides
+              </h2>
+              <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent pr-2 -mr-2 space-y-4 max-h-[calc(100vh-14rem)]">
+                {slides.map((slide, i) => (
+                  <SlideCard
+                    key={slide.id}
+                    slide={slide}
+                    isActive={i === activeSlideIndex}
+                    onClick={() => setActiveSlideIndex(i)}
+                  />
+                ))}
+              </div>
+            </aside>
+          )}
+        </div>
       </div>
+
+      {showSlideshow && (
+        <SlideshowModal
+          slides={slides}
+          initialIndex={activeSlideIndex}
+          onClose={() => setShowSlideshow(false)}
+        />
+      )}
     </main>
   )
 }

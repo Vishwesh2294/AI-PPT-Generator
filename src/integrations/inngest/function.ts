@@ -17,6 +17,7 @@ const slideSchema = z.object({
 
 function buildImageKitUrl(prompt: string, filename: string): string {
   const baseUrl = process.env.IMAGEKIT_BASE_URL!
+  console.log("IMAGEKIT_BASE_URL =", process.env.IMAGEKIT_BASE_URL)
   const sanitizedPrompt = prompt
     .replace(/[^\w\s-]/g, ' ')
     .replace(/\s+/g, ' ')
