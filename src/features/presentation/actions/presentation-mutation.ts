@@ -7,6 +7,7 @@ import {
 import { authFnMiddleware } from "#/middleware/auth";
 import {generateSlug} from "random-word-slugs";
 import { prisma } from "#/lib/db";
+import { inngest } from "#/integrations/inngest/client";
 
 
 export const createPresentation = createServerFn({method:"POST"})
@@ -26,6 +27,11 @@ export const createPresentation = createServerFn({method:"POST"})
             layout: data.layout,
             status: 'GENERATING', 
         },
+    })
+
+    await inngest.send({
+        name:"presentation/generate",
+        data:{presentationId:presentation.id}
     })
 
     return presentation;
@@ -96,7 +102,8 @@ export const regeneratePresentation = createServerFn({method:"POST"})
         }
     })
 
-    return{
-        ok:true as const
-    }
+    await inngest.send({
+      name: 'presentation/generate',
+      data: { presentationId: data.id },
+    })
 })

@@ -21,5 +21,6 @@ export const getPresentationWithSlides = createServerFn({method:"GET"})
         }
     })
 
-    return row;
+    if (!row) throw new Error('Presentation Not found')
+    return row
 })
