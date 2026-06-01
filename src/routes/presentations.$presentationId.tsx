@@ -45,6 +45,7 @@ import {
 } from '#/components/ui/alert-dialog'
 import { SlideCard } from '#/features/presentation/components/slide-card'
 import { SlideshowModal } from '#/features/presentation/components/slideshow-modal'
+import { exportPresentation } from '#/features/presentation/utils/export-ppt'
 
 export const Route = createFileRoute('/presentations/$presentationId')({
   component: RouteComponent,
@@ -107,6 +108,15 @@ function RouteComponent() {
     return null
   }
 
+  const handleExport = async () => {
+  if (!query.data) return
+
+  await exportPresentation({
+    title: query.data.title,
+    slides: query.data.slides,
+  })
+}
+
   const thumb = presentationThumbnailUrl(data.id)
   const activeSlide = slides.at(activeSlideIndex)
 
@@ -162,7 +172,7 @@ function RouteComponent() {
                       variant="outline"
                       size="sm"
                       className="rounded-xl gap-1"
-                      onClick={() => {}}
+                      onClick={handleExport}
                       disabled={isExporting}
                     >
                       <Download className="size-4" />
