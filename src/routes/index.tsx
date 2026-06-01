@@ -20,10 +20,12 @@ import {
 import { Button } from '#/components/ui/button'
 import {Wand2 } from 'lucide-react'
 import { PRESENTATION_TEMPLATES } from '#/features/presentation/constant/presentation-template'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createPresentation } from '#/features/presentation/actions/presentation-mutation'
 import { toast } from 'sonner'
 import { presentationQueryKeys } from '#/features/presentation/hooks/query-keys'
+import { listPresentations } from '#/features/presentation/actions/presentation-query'
+import { PresentationListSection } from '#/features/presentation/components/presentation-list-section'
 
 
 type HomeFormState = {
@@ -58,6 +60,11 @@ function Home() {
     style: 'minimal',
     tone: 'formal',
     layout: 'balanced',
+  })
+
+  const { data: presentations = [], isPending: listPending } = useQuery({
+    queryKey: presentationQueryKeys.list(),
+    queryFn: () => listPresentations(),
   })
 
    const createMut = useMutation({
@@ -95,6 +102,11 @@ function Home() {
   return (
     <main className="min-h-screen pt-24 pb-24 px-4">
       <div className='max-w-4xl mx-auto'>
+        <PresentationListSection
+          presentations={presentations}
+          isPending={listPending}
+        />
+
           {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">
