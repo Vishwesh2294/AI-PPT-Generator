@@ -1,6 +1,10 @@
-# PPT-AI : AI PPT GENERATOR 🚀
+# PPT-AI : AI PPT GENERATOR🚀
 
-An AI-powered presentation generator that creates professional PowerPoint presentations from a simple text prompt. Built with modern full-stack technologies including React, TanStack Start, Prisma, PostgreSQL, Better Auth, Inngest, Google Gemini AI, and PPTXGenJS.
+### AI-Powered PowerPoint Presentation Generator
+
+PPT-AI is a full-stack AI SaaS application that generates professional PowerPoint presentations from a simple text prompt. Using Google Gemini AI, the application automatically creates slide content, generates relevant images, stores presentations in PostgreSQL, and allows users to export complete presentations as PowerPoint (.pptx) files.
+
+---
 
 ## ✨ Features
 
@@ -16,7 +20,21 @@ An AI-powered presentation generator that creates professional PowerPoint presen
 * 🔐 Secure authentication with Google and GitHub
 * ⚡ Background job processing with Inngest
 * 📱 Responsive and modern UI
-* 🌙 Beautiful glassmorphism design
+* 🌙 Glassmorphism-inspired design system
+
+---
+
+## 🚀 Technical Highlights
+
+* Full-stack application built with TanStack Start
+* Server-side rendering and server functions
+* OAuth authentication with Better Auth
+* AI-powered content generation using Gemini
+* Background workflow orchestration using Inngest
+* PostgreSQL database with Prisma ORM
+* Image storage and delivery through ImageKit
+* PowerPoint export functionality using PPTXGenJS
+* Responsive UI built with Tailwind CSS and Shadcn UI
 
 ---
 
@@ -52,7 +70,6 @@ An AI-powered presentation generator that creates professional PowerPoint presen
 
 ---
 
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -84,25 +101,31 @@ Create a `.env` file:
 ```env
 DATABASE_URL=
 
+# Auth
 BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=
 
+# GitHub OAuth
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 
+# Google OAuth
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
+# Gemini AI
 GOOGLE_GENERATIVE_AI_API_KEY=
 
+# ImageKit
 IMAGEKIT_PUBLIC_KEY=
 IMAGEKIT_PRIVATE_KEY=
 VITE_IMAGEKIT_BASE_URL=
 
+# Inngest
 INNGEST_DEV=1
 ```
 
-Generate Prisma client:
+Generate Prisma Client:
 
 ```bash
 npx prisma generate
@@ -114,13 +137,13 @@ Run database migrations:
 npx prisma migrate dev
 ```
 
-Start development server:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Start Inngest Dev Server:
+Start the Inngest development server:
 
 ```bash
 npx inngest-cli@latest dev
@@ -198,7 +221,7 @@ AI-PPT-GENERATOR
 │   │   ├── about.tsx
 │   │   ├── index.tsx
 │   │   ├── presentations.$presentationId.tsx
-│   │   ├── route.tsx
+│   │   ├── router.tsx
 │   │   └── routeTree.gen.ts
 │   │
 │   └── styles.css
@@ -212,7 +235,9 @@ AI-PPT-GENERATOR
 └── README.md
 ```
 
-### Architecture Overview
+---
+
+## 🏛️ Architecture Overview
 
 * **TanStack Start** → Full-stack React framework
 * **TanStack Router** → File-based routing
@@ -222,35 +247,33 @@ AI-PPT-GENERATOR
 * **Better Auth** → Authentication and session management
 * **Google Gemini AI** → Slide content generation
 * **Inngest** → Background job processing
-* **ImageKit** → AI image storage and delivery
+* **ImageKit** → Image storage and CDN delivery
 * **PPTXGenJS** → PowerPoint export generation
 * **Tailwind CSS + Shadcn UI** → Modern UI system
-
-```
 
 ---
 
 ## ⚙️ Workflow
 
 1. User enters a presentation topic.
-2. Gemini AI generates slide content.
-3. Inngest processes background jobs.
-4. Images are generated and uploaded.
-5. Slides are saved to PostgreSQL.
-6. User previews presentation.
-7. User can launch slideshow mode.
+2. Google Gemini generates slide content.
+3. Inngest executes background workflows.
+4. AI images are generated and uploaded.
+5. Presentation data is stored in PostgreSQL.
+6. User previews generated slides.
+7. User launches slideshow mode.
 8. User exports the presentation as a PowerPoint file.
 
 ---
 
 ## 🔐 Authentication
 
-The application supports:
+Supported authentication providers:
 
-* Google Sign In
-* GitHub Sign In
+* Google OAuth
+* GitHub OAuth
 
-Powered by Better Auth.
+Authentication and session management are powered by Better Auth.
 
 ---
 
@@ -259,7 +282,7 @@ Powered by Better Auth.
 Presentations can be exported directly as `.pptx` files using PPTXGenJS while preserving:
 
 * Slide titles
-* Content
+* Slide content
 * Images
 * Presentation structure
 
@@ -270,22 +293,10 @@ Presentations can be exported directly as `.pptx` files using PPTXGenJS while pr
 * Custom presentation themes
 * Drag-and-drop slide editing
 * Real-time collaboration
-* PDF export
+* PDF export support
 * Speaker notes export
 * Advanced slide templates
 * Presentation analytics
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to your branch
-5. Open a Pull Request
 
 ---
 
@@ -293,4 +304,4 @@ Contributions are welcome.
 
 **Vishwesh Upadhyay**
 
-Built with ❤️ using React, TanStack Start, Prisma, Better Auth, Inngest, Gemini AI, and PPTXGenJS.
+Built with React, TanStack Start, Prisma, PostgreSQL, Better Auth, Inngest, Google Gemini AI, ImageKit, and PPTXGenJS.
