@@ -1,218 +1,296 @@
-Welcome to your new TanStack Start app! 
+# PPT-AI : AI PPT GENERATOR 🚀
 
-# Getting Started
+An AI-powered presentation generator that creates professional PowerPoint presentations from a simple text prompt. Built with modern full-stack technologies including React, TanStack Start, Prisma, PostgreSQL, Better Auth, Inngest, Google Gemini AI, and PPTXGenJS.
 
-To run this application:
+## ✨ Features
+
+* 🤖 AI-powered presentation generation using Google Gemini
+* 📝 Generate complete slide decks from a single prompt
+* 🖼️ AI-generated images for slides
+* 🎨 Multiple presentation styles and tones
+* 📊 Dynamic slide generation
+* 🎞️ Fullscreen slideshow mode
+* 💾 Save and manage presentations
+* 🔄 Regenerate presentations instantly
+* 📤 Export presentations as PowerPoint (.pptx)
+* 🔐 Secure authentication with Google and GitHub
+* ⚡ Background job processing with Inngest
+* 📱 Responsive and modern UI
+* 🌙 Beautiful glassmorphism design
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+
+* React 19
+* TanStack Start
+* TanStack Router
+* TanStack Query
+* TypeScript
+* Tailwind CSS v4
+* Shadcn UI
+* Lucide React
+
+### Backend
+
+* TanStack Start Server Functions
+* Prisma ORM
+* PostgreSQL
+* Better Auth
+
+### AI & Automation
+
+* Google Gemini AI
+* Inngest
+* ImageKit
+
+### Presentation Generation
+
+* PPTXGenJS
+
+---
+
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Node.js 22+
+* PostgreSQL Database
+* Google Gemini API Key
+* ImageKit Account
+* GitHub OAuth App
+* Google OAuth App
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/ppt-ai.git
+cd ppt-ai
+```
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Create a `.env` file:
+
+```env
+DATABASE_URL=
+
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+GOOGLE_GENERATIVE_AI_API_KEY=
+
+IMAGEKIT_PUBLIC_KEY=
+IMAGEKIT_PRIVATE_KEY=
+VITE_IMAGEKIT_BASE_URL=
+
+INNGEST_DEV=1
+```
+
+Generate Prisma client:
+
+```bash
+npx prisma generate
+```
+
+Run database migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+Start development server:
+
+```bash
 npm run dev
 ```
 
-# Building For Production
-
-To build this application for production:
+Start Inngest Dev Server:
 
 ```bash
-npm run build
+npx inngest-cli@latest dev
 ```
 
-## Testing
+Open:
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
-```bash
-npm run test
+```text
+http://localhost:3000
 ```
 
-## Styling
+---
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+## 📁 Project Structure
 
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `npm install @tailwindcss/vite tailwindcss -D`
-
-## Linting & Formatting
-
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
-
-```bash
-npm run lint
-npm run format
-npm run check
+```text
+AI-PPT-GENERATOR
+├── prisma/
+│   └── schema.prisma
+│
+├── public/
+│
+├── src/
+│   ├── components/
+│   │   ├── auth/
+│   │   ├── ui/
+│   │   └── navbar.tsx
+│   │
+│   ├── features/
+│   │   └── presentation/
+│   │       ├── actions/
+│   │       ├── components/
+│   │       ├── constant/
+│   │       ├── hooks/
+│   │       ├── types/
+│   │       └── utils/
+│   │
+│   ├── generated/
+│   │   └── prisma/
+│   │       ├── internal/
+│   │       ├── models/
+│   │       ├── browser.ts
+│   │       ├── client.ts
+│   │       ├── commonInputTypes.ts
+│   │       ├── enums.ts
+│   │       └── models.ts
+│   │
+│   ├── hooks/
+│   │
+│   ├── integrations/
+│   │   ├── inngest/
+│   │   │   ├── client.ts
+│   │   │   └── function.ts
+│   │   │
+│   │   └── tanstack-query/
+│   │
+│   ├── lib/
+│   │   ├── auth.ts
+│   │   └── db.ts
+│   │
+│   ├── middleware/
+│   │   └── auth.ts
+│   │
+│   ├── providers/
+│   │
+│   ├── routes/
+│   │   ├── _auth/
+│   │   │   └── login.tsx
+│   │   │
+│   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   └── inngest.ts
+│   │   │
+│   │   ├── __root.tsx
+│   │   ├── about.tsx
+│   │   ├── index.tsx
+│   │   ├── presentations.$presentationId.tsx
+│   │   ├── route.tsx
+│   │   └── routeTree.gen.ts
+│   │
+│   └── styles.css
+│
+├── .env
+├── components.json
+├── package.json
+├── prisma.config.ts
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
 ```
 
+### Architecture Overview
 
-## Deploy with Nitro
+* **TanStack Start** → Full-stack React framework
+* **TanStack Router** → File-based routing
+* **TanStack Query** → Data fetching and caching
+* **Prisma ORM** → Database access layer
+* **PostgreSQL** → Primary database
+* **Better Auth** → Authentication and session management
+* **Google Gemini AI** → Slide content generation
+* **Inngest** → Background job processing
+* **ImageKit** → AI image storage and delivery
+* **PPTXGenJS** → PowerPoint export generation
+* **Tailwind CSS + Shadcn UI** → Modern UI system
 
-This project uses Nitro as a generic server adapter, so it can run on any Node-compatible host.
-
-```bash
-npm run build
-node dist/server/index.mjs
 ```
 
-The build output is a self-contained Node server. To deploy, push the `dist/` directory to your host (Render, Fly.io, your own VPS, etc.) and run the server command above.
+---
 
-For host-specific presets (Vercel, Netlify, Cloudflare, AWS Lambda, etc.) and tuning, see https://v3.nitro.build/deploy.
+## ⚙️ Workflow
 
+1. User enters a presentation topic.
+2. Gemini AI generates slide content.
+3. Inngest processes background jobs.
+4. Images are generated and uploaded.
+5. Slides are saved to PostgreSQL.
+6. User previews presentation.
+7. User can launch slideshow mode.
+8. User exports the presentation as a PowerPoint file.
 
+---
 
-## Routing
+## 🔐 Authentication
 
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
+The application supports:
 
-### Adding A Route
+* Google Sign In
+* GitHub Sign In
 
-To add a new route to your application just add a new file in the `./src/routes` directory.
+Powered by Better Auth.
 
-TanStack will automatically generate the content of the route file for you.
+---
 
-Now that you have two routes you can use a `Link` component to navigate between them.
+## 📤 Export to PowerPoint
 
-### Adding Links
+Presentations can be exported directly as `.pptx` files using PPTXGenJS while preserving:
 
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
+* Slide titles
+* Content
+* Images
+* Presentation structure
 
-```tsx
-import { Link } from "@tanstack/react-router";
-```
+---
 
-Then anywhere in your JSX you can use it like so:
+## 🎯 Future Improvements
 
-```tsx
-<Link to="/about">About</Link>
-```
+* Custom presentation themes
+* Drag-and-drop slide editing
+* Real-time collaboration
+* PDF export
+* Speaker notes export
+* Advanced slide templates
+* Presentation analytics
 
-This will create a link that will navigate to the `/about` route.
+---
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
+## 🤝 Contributing
 
-### Using A Layout
+Contributions are welcome.
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to your branch
+5. Open a Pull Request
 
-Here is an example layout that includes a header:
+---
 
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+## 👨‍💻 Author
 
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
+**Vishwesh Upadhyay**
 
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+Built with ❤️ using React, TanStack Start, Prisma, Better Auth, Inngest, Gemini AI, and PPTXGenJS.
