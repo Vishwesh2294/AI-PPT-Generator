@@ -13,4 +13,3 @@ __unconfig*
 todos.json
 .vscode
 
-/src/generated/prisma
